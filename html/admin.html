@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../assets/img/crms-transparent-logo.png" rel="icon">
+    <link href="../assets/img/crms-transparent-logo.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="admin.html" class="logo d-flex align-items-center">
+                <img src="../assets/img/robotum_logo.png" alt="">
+                <span class="d-none d-lg-block"> CRMS </span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="../assets/img/crms-transparent-logo.png" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Yücel Tekin</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                <i class="bi bi-gear"></i>
+                                <span>Hesap Ayarları</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Oturumu Sonlandır</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link " href="admin.html">
+                    <i class="bi bi-clipboard"></i>
+                    <span>Formlar</span>
+                </a>
+            </li><!-- End Forms Nav -->
+
+
+            <li class="nav-heading">Oturum</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="pages-register.html">
+                    <i class="bi bi-card-list"></i>
+                    <span>Kayıt Ol</span>
+                </a>
+            </li><!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="pages-login.html">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Giriş Yap</span>
+                </a>
+            </li><!-- End Login Page Nav -->
+
+        </ul>
+
+    </aside><!-- End Sidebar-->
+
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Administration</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                    <li class="breadcrumb-item active">Kayıt Formları</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+            <div class="row">
+
+                <!-- Left side columns -->
+                <div class="col-lg-8">
+                    <div class="row">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>Kategori</h4>
+                                </div>
+                                <form action="">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Kategori Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary ms-3"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div><!--Category-->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>Ders</h4>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">Robotik</option>
+                                            <option value="2">Sanat</option>
+                                            <option value="3">Sosyal Bilimler</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Ders Adı</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <label class="col-sm-10 col-form-label"></label>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Class-->
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>Ünite</h4>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">Robotik</option>
+                                            <option value="2">Sanat</option>
+                                            <option value="3">Sosyal Bilimler</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Ders</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">SPIKE</option>
+                                            <option value="2">WEDO</option>
+                                            <option value="3">Arduino</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Ünite Adı</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <label class="col-sm-10 col-form-label"></label>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Unit-->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>Konu</h4>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">Robotik</option>
+                                            <option value="2">Sanat</option>
+                                            <option value="3">Sosyal Bilimler</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Ders</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">SPIKE</option>
+                                            <option value="2">WEDO</option>
+                                            <option value="3">Arduino</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Ünite</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seçiniz</option>
+                                            <option value="1">Giriş</option>
+                                            <option value="2">Temel değişkenler</option>
+                                            <option value="3">Döngüler</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Konu Adı</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <label class="col-sm-10 col-form-label"></label>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Unit-->
+
+                    </div>
+                </div><!-- End Left side columns -->
+
+                <!-- Right side columns -->
+                <div class="col-lg-4">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- form Table -->
+                            <div class="card-title">
+                                <h4>Mevcut Kategoriler</h4>
+                            </div>
+
+                            <table id="categoryTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="category-name" scope="col">Kategori Adı</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="category-name" scope="row">Robotik</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <script>
+
+                                // function addCategory() {
+                                //     var name = document.getElementById("category-name-input").value;
+                                //     var table = document.getElementById("categoryTable");
+                                //     var row = table.insertRow(1);
+                                //     var cell1 = row.insertCell(0);
+                                //     var cell2 = row.insertCell(1);
+                                //     cell1.classList.add("category-name"); // add class to cell1
+                                //     cell1.innerHTML = name;
+                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
+                                // }
+
+
+                                function deleteRow(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    row.parentNode.removeChild(row);
+                                }
+
+                                function edit(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    var nameCell = row.getElementsByClassName("category-name")[0];
+                                    var name = nameCell.innerHTML;
+                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
+
+                                    var input = document.getElementById('editField');
+                                    input.addEventListener('keyup', function (e) {
+                                        if (e.key === 'Enter') {
+                                            nameCell.innerHTML = e.target.value;
+                                        }
+                                    });
+                                }
+                            </script>
+
+                            <!-- End form Table -->
+                        </div>
+                    </div><!--categories table-->
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- form Table -->
+                            <div class="card-title">
+                                <h4>Mevcut Dersler</h4>
+                            </div>
+
+                            <table id="categoryTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="category-name" scope="col">Kategori Adı</th>
+                                        <th class="category-name" scope="col">Ders Adı</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="category-name" scope="row">Robotik</td>
+                                        <td class="category-name" scope="row">WEDO</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <script>
+
+                                function deleteRow(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    row.parentNode.removeChild(row);
+                                }
+
+                                function edit(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    var nameCell = row.getElementsByClassName("category-name")[0];
+                                    var name = nameCell.innerHTML;
+                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
+
+                                    var input = document.getElementById('editField');
+                                    input.addEventListener('keyup', function (e) {
+                                        if (e.key === 'Enter') {
+                                            nameCell.innerHTML = e.target.value;
+                                        }
+                                    });
+                                }
+                            </script>
+
+                            <!-- End form Table -->
+                        </div>
+                    </div><!--classes table-->  
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- form Table -->
+                            <div class="card-title">
+                                <h4>Mevcut Üniteler</h4>
+                            </div>
+
+                            <table id="categoryTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="category-name" scope="col">Ders Adı</th>
+                                        <th class="category-name" scope="col">Ünite Adı</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="category-name" scope="row">WEDO</td>
+                                        <td class="category-name" scope="row">Giriş</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <script>
+
+                                // function addCategory() {
+                                //     var name = document.getElementById("category-name-input").value;
+                                //     var table = document.getElementById("categoryTable");
+                                //     var row = table.insertRow(1);
+                                //     var cell1 = row.insertCell(0);
+                                //     var cell2 = row.insertCell(1);
+                                //     cell1.classList.add("category-name"); // add class to cell1
+                                //     cell1.innerHTML = name;
+                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
+                                // }
+
+
+                                function deleteRow(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    row.parentNode.removeChild(row);
+                                }
+
+                                function edit(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    var nameCell = row.getElementsByClassName("category-name")[0];
+                                    var name = nameCell.innerHTML;
+                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
+
+                                    var input = document.getElementById('editField');
+                                    input.addEventListener('keyup', function (e) {
+                                        if (e.key === 'Enter') {
+                                            nameCell.innerHTML = e.target.value;
+                                        }
+                                    });
+                                }
+                            </script>
+
+                            <!-- End form Table -->
+                        </div>
+                    </div><!--units table-->
+
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- form Table -->
+                            <div class="card-title">
+                                <h4>Mevcut Kategoriler</h4>
+                            </div>
+
+                            <table id="categoryTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="category-name" scope="col">Ünite Adı</th>
+                                        <th class="category-name" scope="col">Konu Adı</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="category-name" scope="row">Giriş</td>
+                                        <td class="category-name" scope="row">Basit Robotik</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <script>
+
+                                // function addCategory() {
+                                //     var name = document.getElementById("category-name-input").value;
+                                //     var table = document.getElementById("categoryTable");
+                                //     var row = table.insertRow(1);
+                                //     var cell1 = row.insertCell(0);
+                                //     var cell2 = row.insertCell(1);
+                                //     cell1.classList.add("category-name"); // add class to cell1
+                                //     cell1.innerHTML = name;
+                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
+                                // }
+
+
+                                function deleteRow(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    row.parentNode.removeChild(row);
+                                }
+
+                                function edit(element) {
+                                    var cell = element.parentNode;
+                                    var row = cell.parentNode;
+                                    var nameCell = row.getElementsByClassName("category-name")[0];
+                                    var name = nameCell.innerHTML;
+                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
+
+                                    var input = document.getElementById('editField');
+                                    input.addEventListener('keyup', function (e) {
+                                        if (e.key === 'Enter') {
+                                            nameCell.innerHTML = e.target.value;
+                                        }
+                                    });
+                                }
+                            </script>
+
+                            <!-- End form Table -->
+                        </div>
+                    </div><!--subjects table-->
+
+
+
+                </div><!-- End Right side columns -->
+
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="../assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../assets/vendor/quill/quill.min.js"></script>
+    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
+
+</body>
+
+</html>
