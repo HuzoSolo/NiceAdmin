@@ -1,0 +1,1 @@
+kullanılacak olan sayfalar html isimli klasör içerisinde bulunacaktır.
