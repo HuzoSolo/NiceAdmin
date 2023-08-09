@@ -130,7 +130,7 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                    <li class="breadcrumb-item active">Kayıt Formları</li>
+                    <li class="breadcrumb-item active">Genel Görünüm</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -139,445 +139,648 @@
             <div class="row">
 
                 <!-- Left side columns -->
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
 
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Kategori</h4>
+                                    <h4>Öğrenci-Grup Kayıt Formu</h4>
                                 </div>
-                                <form action="">
-                                    <div class="row mb-3">
-                                        <label for="inputText" class="col-sm-2 col-form-label">Kategori Adı</label>
-                                        <div class="col-sm-10">
-                                            <input id="category-name-input" type="text" class="form-control">
+                                <div class="row mb-3">
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Grup</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in groups %}
+                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in students %}
+                                            <option value="{{ c.pk }}">{{ c.studentName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-10 col-form-label"></label>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary w-100"
+                                            onclick="addCategory()">Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Student group register form end-->
+
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Öğrenci Grup Listesi</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Kategori</th>
+                                        <th scope="col">Ders</th>
+                                        <th scope="col">Seviye</th>
+                                        <th scope="col">Gün-Saat</th>
+                                        <th scope="col">Kapasite</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <td>Matematik</td>
+                                    <td>Algebra</td>
+                                    <td>Orta</td>
+                                    <td>2023-08-01T14:00</td>
+                                    <td>12/2</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                            data-bs-target="#showModal">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
+
+                                </tbody>
+                            </table>
+
+                            <!-- details Modal -->
+                            <div class="modal fade modal-lg" id="showModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Öğrenci Adı Soyadı</th>
+                                                        <th>Devamsızlık</th>
+                                                        <th>Son Gelmediği Tarih</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Ali Veli</td>
+                                                        <td>3</td>
+                                                        <td>2023-07-29</td>
+                                                        <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <label class="col-sm-10 col-form-label"></label>
-                                        <div class="col-sm-2">
-                                            <button type="submit" class="btn btn-primary ms-3"
-                                                onclick="addCategory()">Kaydet</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
+                            </div><!--end of details Modal -->
 
-
-                            </div>
-                        </div><!--Category-->
+                        </div><!--Student group table card-->
 
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Ders</h4>
+                                    <h4>Eğitmen Kayıt Formu</h4>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Soyadı</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">Robotik</option>
-                                            <option value="2">Sanat</option>
-                                            <option value="3">Sosyal Bilimler</option>
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Fotoğrafı</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="formFileSm" type="file">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Cinsiyet</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            <option value="1">Erkek</option>
+                                            <option value="2">Kadın</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Ders Adı</label>
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Medeni Hal</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            <option value="1">Evli</option>
+                                            <option value="2">Bekar</option>
+                                        </select>
                                     </div>
                                 </div>
-                                
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitim durumu</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Üniversite Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="date" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="email" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="tel" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Pozisyon</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in positions %}
+                                            <option value="{{ c.pk }}">{{ c.positionName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Branş</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+
                                 <div class="row mb-3">
                                     <label class="col-sm-10 col-form-label"></label>
                                     <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                        <button type="submit" class="btn btn-primary w-100"
+                                            onclick="addCategory()">Kaydet</button>
                                     </div>
                                 </div>
                             </div>
-                        </div><!--Class-->
+                        </div><!--Teacher register form end-->
 
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Eğitmen Listesi</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Görsel</th>
+                                        <th scope="col">Eğitmen Adı Soyadı</th>
+                                        <th scope="col">Pozisyon</th>
+                                        <th scope="col">Branş</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <td><img src="../assets/img/me.png" alt="Personal" style="width: 50px;"></td>
+                                    <td>Emirhan Ilıca</td>
+                                    <td>Reverse Cow-Girl</td>
+                                    <td>BDSM</td>
+                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
+
+                                </tbody>
+                            </table>
+
+                        </div><!--Teachers table card-->
 
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Ünite</h4>
+                                    <h4>Öğrenci Kayıt Formu</h4>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Soyadı</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">Robotik</option>
-                                            <option value="2">Sanat</option>
-                                            <option value="3">Sosyal Bilimler</option>
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Fotoğrafı</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control form-control-sm" id="formFileSm" type="file">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="email" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="tel" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="date" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Okul Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Sınıf</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in grades %}
+                                            <option value="{{ c.pk }}">{{ c.gradeName }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Ders</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Adres</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">SPIKE</option>
-                                            <option value="2">WEDO</option>
-                                            <option value="3">Arduino</option>
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Şehir</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="citySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in cities %}
+                                            <option value="{{ c.pk }}">{{ c.cityName }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Ünite Adı</label>
+                                    <label class="col-sm-2 col-form-label">İlçe</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control">
+                                        <select class="form-select" aria-label="Default select example" name="lesson"
+                                            id="countySelect" disabled>
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for l in county %}
+                                            <option value="{{ l.pk }}" data-category="{{ l.cityid_id }}">{{ l.countyName
+                                                }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
-                                
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        const citySelect = document.getElementById("citySelect");
+                                        const countySelect = document.getElementById("countySelect");
+
+                                        citySelect.addEventListener("change", function () {
+                                            const selectedCityId = this.value;
+                                            const countyOptions = countySelect.querySelectorAll("option");
+
+                                            countyOptions.forEach(option => {
+                                                const optionCity = option.getAttribute("data-category");
+                                                if (optionCity === selectedCityId || selectedCityId === "") {
+                                                    option.style.display = "block";
+                                                } else {
+                                                    option.style.display = "none";
+                                                }
+                                            });
+
+                                            countySelect.disabled = !selectedCityId; // Kategori seçilmediyse dersleri seçimi devre dışı bırak
+                                        });
+                                    });
+                                </script>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">iskonto</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="number" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Boyut</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="lesson"
+                                            id="sizeSelect">
+                                            <option selected>Seçiniz</option>
+                                            {% for s in size %}
+                                            <option value="{{ s.pk }}">{{ s.sizeName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Soyadı</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Veli E-Posta</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="email" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Telefon Numarası</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="tel" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Meslek</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="lesson"
+                                            id="jobSelect">
+                                            <option selected>Seçiniz</option>
+                                            {% for j in jobs %}
+                                            <option value="{{ j.pk }}">{{ j.jobName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Adresi</label>
+                                    <div class="col-sm-10">
+                                        <input id="category-name-input" type="text" class="form-control"
+                                            name="categoryinput">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Şehir</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="ParentcitySelect" id="ParentcitySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for c in cities %}
+                                            <option value="{{ c.pk }}">{{ c.cityName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">İlçe</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="ParentcountySelect" id="ParentcountySelect" disabled>
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for l in county %}
+                                            <option value="{{ l.pk }}" data-category="{{ l.cityid_id }}">{{ l.countyName
+                                                }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        const citySelect = document.getElementById("ParentcitySelect");
+                                        const countySelect = document.getElementById("ParentcountySelect");
+
+                                        citySelect.addEventListener("change", function () {
+                                            const selectedCityId = this.value;
+                                            const countyOptions = countySelect.querySelectorAll("option");
+
+                                            countyOptions.forEach(option => {
+                                                const optionCity = option.getAttribute("data-category");
+                                                if (optionCity === selectedCityId || selectedCityId === "") {
+                                                    option.style.display = "block";
+                                                } else {
+                                                    option.style.display = "none";
+                                                }
+                                            });
+
+                                            countySelect.disabled = !selectedCityId; // Kategori seçilmediyse dersleri seçimi devre dışı bırak
+                                        });
+                                    });
+                                </script>
+
+
                                 <div class="row mb-3">
                                     <label class="col-sm-10 col-form-label"></label>
                                     <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                        <button type="submit" class="btn btn-primary w-100"
+                                            onclick="addCategory()">Kaydet</button>
                                     </div>
                                 </div>
                             </div>
-                        </div><!--Unit-->
+                        </div><!--Student register form end-->
+
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Öğrenci Listesi</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Öğrenci Adı Soyadı</th>
+                                        <th scope="col">Veli Adı Soyadı</th>
+                                        <th scope="col">Veli Telefon Numarası</th>
+                                        <th scope="col">E-Mail</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <td>Huzeyfe Hanzala Güzel</td>
+                                    <td>Emirhan Ilıca</td>
+                                    <td>+90 531 552 31 69</td>
+                                    <td>xKraltr@xvideos.cu</td>
+                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
+
+                                </tbody>
+                            </table>
+
+                        </div><!--Students table card-->
 
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Konu</h4>
+                                    <h4>Ödeme Kayıt Formu</h4>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Örenci</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">Robotik</option>
-                                            <option value="2">Sanat</option>
-                                            <option value="3">Sosyal Bilimler</option>
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="categorySelect">
+                                            <option selected disabled>Seçiniz</option>
+                                            {% for s in students %}
+                                            <option value="{{ s.pk }}">{{ s.studentName }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Ders</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Ödeme Tarihi</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">SPIKE</option>
-                                            <option value="2">WEDO</option>
-                                            <option value="3">Arduino</option>
-                                        </select>
+                                        <input id="category-name-input" type="date" class="form-control"
+                                            name="categoryinput">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Ünite</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">Miktar</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seçiniz</option>
-                                            <option value="1">Giriş</option>
-                                            <option value="2">Temel değişkenler</option>
-                                            <option value="3">Döngüler</option>
-                                        </select>
+                                        <input id="category-name-input" type="number" class="form-control"
+                                            name="categoryinput">
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Konu Adı</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                
                                 <div class="row mb-3">
                                     <label class="col-sm-10 col-form-label"></label>
                                     <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary ms-3">Kaydet</button>
+                                        <button type="submit" class="btn  btn-primary w-100"
+                                            onclick="addCategory()">Kaydet</button>
                                     </div>
                                 </div>
+
                             </div>
-                        </div><!--Unit-->
+                        </div><!--Payment register form end-->
+
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Ödeme Tablosu</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Öğrenci Adı Soyadı</th>
+                                        <th scope="col">Ödeme Tarih ve Saati</th>
+                                        <th scope="col">Miktar</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <td>Huzeyfe Hanzala Güzel</td>
+                                    <td>02/08/2023 23.43</td>
+                                    <td>304232 ₺</td>
+                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
+
+                                </tbody>
+                            </table>
+
+                        </div><!--Payments table card-->
 
                     </div>
                 </div><!-- End Left side columns -->
 
                 <!-- Right side columns -->
-                <div class="col-lg-4">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Kategoriler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Kategori Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">Robotik</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--categories table-->
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Dersler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Kategori Adı</th>
-                                        <th class="category-name" scope="col">Ders Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">Robotik</td>
-                                        <td class="category-name" scope="row">WEDO</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--classes table-->  
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Üniteler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Ders Adı</th>
-                                        <th class="category-name" scope="col">Ünite Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">WEDO</td>
-                                        <td class="category-name" scope="row">Giriş</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--units table-->
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Kategoriler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Ünite Adı</th>
-                                        <th class="category-name" scope="col">Konu Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">Giriş</td>
-                                        <td class="category-name" scope="row">Basit Robotik</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--subjects table-->
-
+                <div class="col-lg-12">
 
 
                 </div><!-- End Right side columns -->

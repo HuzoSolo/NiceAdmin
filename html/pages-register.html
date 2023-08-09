@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="../https://fonts.gstatic.com" rel="preconnect">
-  <link href="../https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="../https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +40,7 @@
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-8 col-md-10 col-md-12 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
@@ -52,50 +54,76 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Bir Hesap Oluşturun</h5>
-                    <p class="text-center small">Kişisel bilgilerinizi girerek kayıt olun.</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Bir Ön Kayıt Oluşturun</h5>
+                    <p class="text-center small">Kişisel bilgilerinizi girerek ön kayıt olun.</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourName" class="form-label">Adınız:</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Lütfen Adınızı girin!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Mail Adresiniz:</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Lütfen Mail Adresinizi girin!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Kullanıcı Adınız:</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-people "></i></span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Lütfen bir Kullanıcı Adı belirleyin.</div>
+                  <form class="row g-5 needs-validation" novalidate>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-12">
+                        <label for="yourName" class="form-label">Adınız:</label>
+                        <input type="text" name="name" class="form-control" id="yourName" required>
+                        <div class="invalid-feedback">Lütfen Adınızı girin!</div>
                       </div>
-                    </div>
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Şifre:</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Lütfen Şifre girin!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">Sözleşmeyi Okudum <a href="#">Onaylıyorum</a>.</label>
-                        <div class="invalid-feedback">Devam etmeden önce kabul edin.</div>
+                      <div class="col-12">
+                        <label for="yourSurname" class="form-label">Soy Adınız:</label>
+                        <input type="text" name="surname" class="form-control" id="yourSurname" required>
+                        <div class="invalid-feedback">Lütfen Soy Adınızı girin!</div>
                       </div>
+
+                      <div class="col-12">
+                        <label for="telephone" class="form-label">Telefon Numaranız:</label>
+                        <input type="tel" name="telephone" class="form-control" id="telephone" required>
+                        <div class="invalid-feedback">Lütfen Telefon Numaranızı girin!</div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="ParentTelephone" class="form-label">Ebeveyn Telefon Numarası:</label>
+                        <input type="tel" name="ParentTelephone" class="form-control" id="ParentTelephone" required>
+                        <div class="invalid-feedback">Lütfen Ebeveyn Telefon Numarasını girin!</div>
+                      </div>
+
                     </div>
-                    <div class="col-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-12">
+                        <label for="yourEmail" class="form-label">Mail Adresiniz:</label>
+                        <input type="email" name="email" class="form-control" id="yourEmail" required>
+                        <div class="invalid-feedback">Lütfen Mail Adresinizi girin!</div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourUsername" class="form-label">Kullanıcı Adınız:</label>
+                        <div class="input-group has-validation">
+                          <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-people "></i></span>
+                          <input type="text" name="username" class="form-control" id="yourUsername" required>
+                          <div class="invalid-feedback">Lütfen bir Kullanıcı Adı belirleyin.</div>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourPassword" class="form-label">Şifre:</label>
+                        <input type="password" name="password" class="form-control" id="yourPassword" required>
+                        <div class="invalid-feedback">Lütfen Şifre girin!</div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourPasswordAuth" class="form-label">Şifre Tekrar:</label>
+                        <input type="password" name="passwordAuth" class="form-control" id="yourPasswordAuth" required>
+                        <div class="invalid-feedback">Lütfen Şifrenizi Tekrar girin!</div>
+                      </div>
+
+                      
+                    </div>
+
+                    <div class="col-12 mt-4">
                       <button class="btn btn-primary w-100" type="submit">Hesap Oluştur</button>
                     </div>
+
                     <div class="col-12">
-                      <p class="small mb-0">Zatenb Hesabın var mı? <a href="pages-login.html">Giriş Yap</a></p>
+                      <p class="small mb-0">Zaten Hesabın var mı? <a href="pages-login.html">Giriş Yap</a></p><br>
+                      <p class="small mb-0">Kayıt işleminiz daha sonra yöneticiler tarafından işlenip tamamlanacaktır!
+                      </p>
                     </div>
                   </form>
 
@@ -110,7 +138,8 @@
     </div>
   </main><!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
