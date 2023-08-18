@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Admin Panel</title>
+    <title>Grup ve Sınıf Panel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -146,113 +146,158 @@
                                 <div class="card-title">
                                     <h4>Grup Kayıt Formu</h4>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Kategori</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                <form method="post" action="{% url 'add_group' %}">
+                                    {% csrf_token %}
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Kategori</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="category" id="categorySelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for c in category %}
+                                                    <option value="{{ c.pk }}">{{ c.categoryname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Düzey</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                
+                                    <div class="row mb-3">
+                                        <label for="levelSelect" class="col-sm-2 col-form-label">Düzey</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="level" id="levelSelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                    <option value="Okul Öncesi">Okul Öncesi</option>   
+                                                    <option value="İlkokul">İlkokul</option>   
+                                                    <option value="Ortaokul">Ortaokul</option>   
+                                                    <option value="Lise">Lise</option>   
+                                                    <option value="Lisans">Lisans</option>                                             
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Ders</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                
+                                    <div class="row mb-3">
+                                        <label for="lessonSelect" class="col-sm-2 col-form-label">Ders</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="lesson" id="lessonSelect" disabled>
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for l in lesson %}
+                                                    <option value="{{ l.pk }}" data-category="{{ l.categoryid_id }}">{{ l.lessonname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            const categorySelect = document.getElementById("categorySelect");
+                                            const lessonSelect = document.getElementById("lessonSelect");
+                                        
+                                            categorySelect.addEventListener("change", function () {
+                                                const selectedCategoryId = this.value;
+                                                const lessonOptions = lessonSelect.querySelectorAll("option");
+                                            
+                                                lessonOptions.forEach(option => {
+                                                    const optionCategory = option.getAttribute("data-category");
+                                                    if (optionCategory === selectedCategoryId || selectedCategoryId === "") {
+                                                        option.style.display = "block";
+                                                    } else {
+                                                        option.style.display = "none";
+                                                    }
+                                                });
+                                            
+                                                lessonSelect.disabled = !selectedCategoryId; // Enable the lesson selection only when a category is selected
 
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Sınıf</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                                // Reset the lesson selection to "Seçiniz" when category is changed
+                                                lessonSelect.selectedIndex = 0;
+                                            });
+                                        });
+                                    </script>
+                                
+                                    <div class="row mb-3">
+                                        <label for="classroomSelect" class="col-sm-2 col-form-label">Sınıf</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="classroom"
+                                                id="classroomSelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for c in classroom %}
+                                                    <option value="{{ c.pk }}">{{ c.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Gün</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                    <div class="row mb-3">
+                                        <label for="daySelect" class="col-sm-2 col-form-label">Gün</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="day"
+                                                id="daySelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                <option value="Pazartesi">Pazartesi</option>        
+                                                <option value="Salı">Salı</option>        
+                                                <option value="Çarşamba">Çarşamba</option>        
+                                                <option value="Perşembe">Perşembe</option>        
+                                                <option value="Cuma">Cuma</option>        
+                                                <option value="Cumartesi">Cumartesi</option>        
+                                                <option value="Pazar">Pazar</option>        
+
+
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Grup Saati</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                    <div class="row mb-3">
+                                        <label for="hoursSelect" class="col-sm-2 col-form-label">Grup Saati</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="hours"
+                                                id="hoursSelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                <option value="09:00">09:00</option>        
+                                                <option value="10:00">10:00</option>        
+                                                <option value="11:00">11:00</option>        
+                                                <option value="12:00">12:00</option>        
+                                                <option value="13:00">13:00</option>        
+                                                <option value="14:00">14:00</option>        
+                                                <option value="15:00">15:00</option>        
+                                                <option value="16:00">16:00</option>        
+                                                <option value="17:00">17:00</option>        
+                                                <option value="18:00">18:00</option>        
+                                                <option value="19:00">19:00</option>        
+                                                <option value="20:00">20:00</option>        
+
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Eğitmen</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                    <div class="row mb-3">
+                                        <label for="teacherSelect" class="col-sm-2 col-form-label">Eğitmen</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="teacher"
+                                                id="teacherSelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for t in teacher %}
+                                                <option value="{{ t.pk }}">{{ t.name }} {{t.surname}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                                <div class="row mb-3">
-                                    <label for="categoryName" class="col-sm-2 col-form-label">Grup Adı</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="categoryName"
-                                            placeholder="Grup Adı">
-                                    </div><!--Grup adı ekle-->
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
+                                    <div class="row mb-3">
+                                        <label for="groupName" class="col-sm-2 col-form-label">Grup Adı</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="groupName" name="groupName"
+                                                placeholder="Grup Adı">
+                                        </div><!--Grup adı ekle-->
                                     </div>
-                                </div>
+
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div><!--Group register form end-->
                     </div>
@@ -272,22 +317,35 @@
                                         <th scope="col">Sınıf</th>
                                         <th scope="col">Gün</th>
                                         <th scope="col">Grup Saati</th>
+                                        <th scope="col">Eğitmen</th>
+                                        <th scope="col">Kapasite</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <td>Grup 1</td>
-                                    <td>Yazılım</td>
-                                    <td>İleri</td>
-                                    <td>Python</td>
-                                    <td>1</td>
-                                    <td>Salı</td>
-                                    <td>10:00</td>
+                                    {% for g in group %}
+                                        <tr>
+                                            <td>{{g.name}}</td>
+                                            <td>{{g.categoryid.categoryname}}</td>
+                                            <td>{{g.level}}</td>
+                                            <td>{{g.lessonid.lessonname}}</td>
+                                            <td>{{g.classroomid.name}}</td>
+                                            <td>{{g.day}}</td>
+                                            <td>{{g.hours}}</td>
+                                            <td>{{g.teacherid.name}} {{g.teacherid.surname}}</td>
+                                            <td>{{g.capacity}} /{{g.classroomid.capacity}}</td>
 
-                                    <td><button type='button' class='btn btn-danger w-100'><i
-                                                class="bi bi-trash"></i></button></td>
-
+                                           
+                                            <td>
+                                                <a href="{% url 'delete_group' g.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
+                                                </a> 
+                                            </td>
+                                                      
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
 
@@ -300,30 +358,33 @@
                                 <div class="card-title">
                                     <h4>Sınıf Kayıt Formu</h4>
                                 </div>
-                                
-                                <div class="row mb-3">
-                                    <label for="categoryName" class="col-sm-2 col-form-label">Sınıf Adı</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="categoryName"
-                                            placeholder="Grup Adı">
+                                <form method="post" action="{% url 'add_class' %}">
+                                    {% csrf_token %}
+                                    <div class="row mb-3">
+                                        <label for="categoryName" class="col-sm-2 col-form-label">Sınıf Adı</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="className" name="className"
+                                                placeholder="Sınıf Adı">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="categoryName" class="col-sm-2 col-form-label">Kapasite</label>
-                                    <div class="col-sm-10">
-                                        <input type="number" class="form-control" id="categoryName"
-                                            placeholder="Grup Kapasite">
+                                    <div class="row mb-3">
+                                        <label for="categoryName" class="col-sm-2 col-form-label">Kapasite</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" id="classCapacity" name ="classCapacity"
+                                                placeholder="Sınıf Kapasite">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
+
                             </div>
                         </div><!--Class register form end-->
                     </div>
@@ -344,11 +405,18 @@
                                 </thead>
 
                                 <tbody>
-                                    <td>Sınıf 1</td>
-                                    <td>20</td>
-                                    <td><button type='button' class='btn btn-danger w-100'><i
-                                                class="bi bi-trash"></i></button></td>
-
+                                    {% for c in classroom %}
+                                    <tr>
+                                        <td value="{{c.pk}}">{{c.name}}</td>
+                                        <td value="{{c.pk}}">{{c.capacity}}</td>
+                                        <td>
+                                            <a href="{% url 'delete_classroom' c.id %}">
+                                            <button type='button' class='btn btn-danger w-100'><i
+                                                    class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
 

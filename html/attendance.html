@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Admin Panel</title>
+    <title>Attendance Panel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -143,86 +143,169 @@
                     <div class="row">
 
                         <div class="card">
-                            <div class="card-body">
+                            <form method="post" action="{% url 'add_attendance' %}">
+                                {% csrf_token %}
+                                <div class="card-body">
                                 <div class="card-title">
                                     <h4>Yoklama Modülü</h4>
                                 </div>
-
+                                
                                 <div class="row mb-3">
-                                    <label for="studentSelect" class="col-sm-2 col-form-label">Örenci</label>
+                                    <label for="groupSelect" class="col-sm-2 col-form-label">Grup</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="student"
-                                            id="studentSelect">
+                                        <select class="form-select" aria-label="Default select example" name="group" id="groupSelect">
                                             <option selected disabled>Seçiniz</option>
-                                            {% for s in students %}
-                                            <option value="{{ s.pk }}">{{ s.studentName }}</option>
+                                            {% for g in group %}
+                                            <option value="{{ g.name }}">{{ g.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="row mb-3">
-                                    <label for="studentNumber" class="col-sm-2 col-form-label">Öğrenci Numarası</label>
+                                
+                                <div class="row mb-3" id="studentSection" style="position: relative;">
+                                    <label for="studentSelect" class="col-sm-2 col-form-label">Öğrenci</label>
                                     <div class="col-sm-10">
-                                        <input id="studentNumber" type="number" class="form-control"
-                                            name="studentNumber">
+                                        <select class="form-select" aria-label="Default select example" name="student" id="studentSelect">
+                                            <option selected disabled>Seçiniz</option>
+                                        </select>
                                     </div>
                                 </div>
-
+                                
                                 <div class="row mb-3">
                                     <label for="lesson" class="col-sm-2 col-form-label">Ders Adı</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="lesson"
-                                            id="lesson">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for l in lesson %}
-                                            <option value="{{ l.pk }}">{{ l.lessonName }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <input id="lesson" type="text" class="form-control"
+                                            name="lesson" readonly>
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <label for="hours" class="col-sm-2 col-form-label">Ders Saati</label>
+                                    <div class="col-sm-10">
+                                        <input id="hours" type="text" class="form-control"
+                                            name="hours" readonly>
+                                    </div>
+                                </div>
+
+                                {% comment %} <div class="row mb-3">
+                                    <label for="lesson" class="col-sm-2 col-form-label">Ders Adı</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" aria-label="Default select example" name="lesson" id="lessonSelect">
+                                            <option selected disabled id="lesson2Select">Seçiniz</option>
+                                            <!-- Ders seçeneklerini burada Django değişkenlerini kullanarak doldurmayın -->
+                                        </select>
+                                    </div>
+                                </div> {% endcomment %}
+
+                                <script>
+                                    var groupSelect = document.getElementById('groupSelect');
+                                    var studentSelect = document.getElementById('studentSelect');
+                                    var lessonSelect = document.getElementById('lesson');
+                                    studentSelect.disabled = true;
+                                    studentSelect.innerHTML = '<option selected disabled>Grup Seçiniz</option>';
+                                    lessonSelect.value = 'Grup Seçiniz';
+                                    hours.value = 'Grup Seçiniz';
+                                    groupSelect.addEventListener('change', function() {
+                                        var selectedGroup = this.value;
+                                        studentSelect.innerHTML = '<option selected disabled>Öğrenci Seçiniz</option>';
+                                        
+                                        if (selectedGroup !== '') {
+                                            {% for sg in studentgroup %}
+                                                if ('{{ sg.groupid.name }}' === selectedGroup) {
+                                                    var option = document.createElement('option');
+                                                    option.value = '{{ sg.studentid.pk }}';
+                                                    option.text = '{{ sg.studentid.firstname }} {{ sg.studentid.lastname }}';
+                                                    studentSelect.appendChild(option);
+                                                    
+
+                                                    lessonSelect.value= '{{ sg.groupid.lessonid.lessonname }}';
+                                                    hours.value = '{{ sg.groupid.hours }}';
+                                                    /*
+                                                    var option2 = document.createElement('option');
+                                                    option2.value = '{{ sg.groupid.lessonid.lessonname }}'
+                                                    option2.text = '{{ sg.groupid.lessonid.lessonname }}';
+                                                    lessonSelect.appendChild(option2);
+                                                    */
+
+                                                }
+                                            {% endfor %}
+                                            studentSelect.disabled = false;
+                                            lessonSelect.disabled = false;
+
+                                        } else {
+                                            studentSelect.disabled = true;
+                                            lessonSelect.disabled = true;
+
+                                        }
+                                    });
+                                </script>
+                                
+                                
+                                 
                                 <div class="row mb-3">
                                     <label for="attendanceDate" class="col-sm-2 col-form-label">Yoklama Tarihi</label>
                                     <div class="col-sm-10">
-                                        <input id="attendanceDate" type="date" class="form-control"
-                                            name="attendanceDate">
+                                        <input id="attendanceDate" type="date" class="form-control" name="attendanceDate">
                                     </div>
                                 </div>
+                                
+                                <script>
+                                    // Sayfa yüklendiğinde çalışacak fonksiyon
+                                    window.onload = function() {
+                                        // Tarih alanını seç
+                                        var attendanceDateInput = document.getElementById("attendanceDate");
+                                
+                                        // Bugünün tarihini al ve yyyy-mm-dd formatında dönüştür
+                                        var today = new Date();
+                                        var yyyy = today.getFullYear();
+                                        var mm = String(today.getMonth() + 1).padStart(2, '0');
+                                        var dd = String(today.getDate()).padStart(2, '0');
+                                        var formattedDate = yyyy + '-' + mm + '-' + dd;
+                                
+                                        // Bugünün tarihini tarih alanına yerleştir
+                                        attendanceDateInput.value = formattedDate;
+                                    };
+                                </script>
+                                
+                                
 
                                 <div class="row mb-3">
-                                    <label for="lessonTime" class="col-sm-2 col-form-label">Ders Saati</label>
+                                    <label class="col-sm-2 col-form-label">Durum</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="lessonTime"
-                                            id="lessonTime">
-                                            <option selected disabled>Seçiniz</option>
-
-                                            <option value="0">09.00</option>
-                                            <option value="0">11.00</option>
-                                            <option value="0">13.00</option>
-                                            <option value="0">15.00</option>
-                                            <option value="0">17.00</option>
-                                            <option value="0">19.00</option>
-                                            <option value="0">21.00</option>
-
-
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="status" class="col-sm-2 col-form-label">Durum</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="status"
-                                            id="status">
-                                            <option selected disabled>Seçiniz</option>
-
-                                            <option value="0">Mevcut</option>
-                                            <option value="0">Yok</option>
-                                            <option value="0">Geç Kaldı</option>
-
-
-                                        </select>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="status"
+                                                                id="status1" value="Mevcut" checked>
+                                                            <label class="form-check-label" for="status1">
+                                                                Mevcut
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="status"
+                                                                id="status2" value="Yok">
+                                                            <label class="form-check-label" for="status2">
+                                                                Yok
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="status"
+                                                                id="status3" value="Geç Kaldı">
+                                                            <label class="form-check-label" for="status3">
+                                                                Geç Kaldı
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-12 col-lg-6"></div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -236,7 +319,8 @@
                                     </div>
                                 </div>
 
-                            </div>
+                                </div>
+                            </form>
                         </div><!--Payment register form end-->
 
 

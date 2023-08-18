@@ -143,30 +143,33 @@
                     <div class="row">
 
                         <div class="card">
+                            <form  method="post" action="{% url 'add_group_student' %}">
+                                {% csrf_token %}
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Öğrenci-Grup Kayıt Formu</h4>
+                                    <h4>Öğrenci Grup Kayıt Formu</h4>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Grup</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="groupSelect"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
-                                            {% for c in groups %}
-                                            <option value="{{ c.pk }}">{{ c.groupname }}</option>
+                                            {% for g in group %}
+                                            <option value="{{ g.pk }}">{{ g.name }}</option>
                                             {% endfor %}
+                                            
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="studentSelect"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
-                                            {% for c in students %}
-                                            <option value="{{ c.pk }}">{{ c.studentName }}</option>
+                                            {% for s in student %}
+                                            <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -179,6 +182,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </form>
                         </div><!--Student group register form end-->
 
                         <div class="card p-3">
@@ -188,11 +192,13 @@
                             <table class="datatable">
 
                                 <thead>
-                                    <tr>
-                                        <th scope="col">Kategori</th>
+                                    <tr>                                       
+                                        <th scope="col">Öğrenci</th>
+                                        <th scope="col">Grup</th>
                                         <th scope="col">Ders</th>
-                                        <th scope="col">Seviye</th>
-                                        <th scope="col">Gün-Saat</th>
+                                        <th scope="col">Sınıf</th>
+                                        <th scope="col">Tarih</th>
+                                        <th scope="col">Eğitmen</th>
                                         <th scope="col">Kapasite</th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
@@ -200,22 +206,70 @@
                                 </thead>
 
                                 <tbody>
-                                    <td>Matematik</td>
-                                    <td>Algebra</td>
-                                    <td>Orta</td>
-                                    <td>2023-08-01T14:00</td>
-                                    <td>12/2</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
-                                            data-bs-target="#showModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </td>
-                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
+                                    {% for s in studentgroup %}
+                                    <tr>
+                                        <td>{{s.studentid.firstname}} {{s.studentid.lastname}}</td>
+                                        <td>{{s.groupid.name}}</td>
+                                        <td>{{s.groupid.lessonid.lessonname}}</td>
+                                        <td>{{s.groupid.classroomid.name}}</td>
+                                        <td>{{s.groupid.day}} {{s.groupid.hours}}</td>
+                                        <td>{{s.groupid.teacherid.name}} {{s.groupid.teacherid.surname}}</td>
+                                        <td>{{s.groupid.capacity}}/{{s.groupid.classroomid.capacity}}</td>
 
+                                        <td>
+                                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                                                data-bs-target="#showModal" onclick="showStudentDetails('{{ s.studentid.id }}','{{ s.studentid.firstname }} {{s.studentid.lastname}}',
+                                                '{{ s.groupid.id }}',)">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'delete_studentgroup' s.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
-
+                            <script>
+                                function showStudentDetails(studentId, studentName, groupId) {
+                                    const modalTitle = document.querySelector('.modal-title');
+                                    modalTitle.textContent = studentName;
+                                
+                                    fetch(`/api/get_attendance/${studentId}/`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            console.log(data)
+                                            const modalTableBody = document.querySelector('#modalTableBody');
+                                            modalTableBody.innerHTML = '';  // İçeriği temizleyin
+                                
+                                            data.attendance.forEach(attendance => {
+                                                const row = document.createElement('tr');
+                                
+                                                const studentCell = document.createElement('td');
+                                                studentCell.textContent = `${attendance.lessonname}`;
+                                                row.appendChild(studentCell);
+                                
+                                                const dateCell = document.createElement('td');
+                                                const attendanceDate = new Date(attendance.attendancedate);
+                                                const formattedDate = `${attendanceDate.getDate()}/${attendanceDate.getMonth() + 1}/${attendanceDate.getFullYear()}`;
+                                                dateCell.textContent = formattedDate;
+                                                row.appendChild(dateCell);
+                                
+                                                const statuCell = document.createElement('td');
+                                                statuCell.textContent = attendance.statu;
+                                                row.appendChild(statuCell);
+                                
+                                                modalTableBody.appendChild(row);
+                                            });
+                                        })
+                                        .catch(error => {
+                                            console.error('Error fetching attendance data:', error);
+                                        });
+                                }
+                                
+                            </script>
                             <!-- details Modal -->
                             <div class="modal fade modal-lg" id="showModal" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -230,19 +284,14 @@
                                             <table class="datatable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Öğrenci Adı Soyadı</th>
-                                                        <th>Devamsızlık</th>
-                                                        <th>Son Gelmediği Tarih</th>
-                                                        <th></th>
+                                                        <th>Aldığı Dersler</th>
+                                                        <th>Tarih</th>
+                                                        <th>Durum</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="modalTableBody">
                                                     <tr>
-                                                        <td>Ali Veli</td>
-                                                        <td>3</td>
-                                                        <td>2023-07-29</td>
-                                                        <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
-                                                        </td>
+                                                        
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -250,7 +299,6 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -259,6 +307,8 @@
                         </div><!--Student group table card-->
 
                         <div class="card">
+                        <form method="post" action="{% url 'add_teacher' %}">
+                            {% csrf_token %}
                             <div class="card-body">
                                 <div class="card-title">
                                     <h4>Eğitmen Kayıt Formu</h4>
@@ -267,7 +317,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Adı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="name">
                                     </div>
                                 </div>
 
@@ -275,21 +325,14 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Soyadı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Fotoğrafı</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control form-control-sm" id="formFileSm" type="file">
+                                            name="surname">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Cinsiyet</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="gender"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
                                             <option value="1">Erkek</option>
@@ -301,7 +344,7 @@
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Medeni Hal</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="marital-status"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
                                             <option value="1">Evli</option>
@@ -314,7 +357,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Eğitim durumu</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="edu-status">
                                     </div>
                                 </div>
 
@@ -322,7 +365,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Üniversite Adı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="uni-name">
                                     </div>
                                 </div>
 
@@ -330,7 +373,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="date" class="form-control"
-                                            name="categoryinput">
+                                            name="birthdate">
                                     </div>
                                 </div>
 
@@ -338,7 +381,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="email" class="form-control"
-                                            name="categoryinput">
+                                            name="email">
                                     </div>
                                 </div>
 
@@ -346,19 +389,19 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="tel" class="form-control"
-                                            name="categoryinput">
+                                            name="phone">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Pozisyon</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="position"
                                             id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in positions %}
-                                            <option value="{{ c.pk }}">{{ c.positionName }}</option>
-                                            {% endfor %}
+                                            <option selected disabled>Seçiniz</option> 
+                                            <option value="Öğretmen">Öğretmen</option>
+                                            <option value="Asistan">Asistan</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -367,7 +410,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Branş</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="branches">
                                     </div>
                                 </div>
 
@@ -380,6 +423,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </form>
                         </div><!--Teacher register form end-->
 
                         <div class="card p-3">
@@ -390,8 +434,9 @@
 
                                 <thead>
                                     <tr>
-                                        <th scope="col">Görsel</th>
-                                        <th scope="col">Eğitmen Adı Soyadı</th>
+                                        <th scope="col">Adı Soyadı</th>
+                                        <th scope="col">E Posta</th>
+                                        <th scope="col">Telefon</th>
                                         <th scope="col">Pozisyon</th>
                                         <th scope="col">Branş</th>
                                         <th scope="col"></th>
@@ -399,19 +444,30 @@
                                 </thead>
 
                                 <tbody>
-                                    <td><img src="../assets/img/me.png" alt="Personal" style="width: 50px;"></td>
-                                    <td>Emirhan Ilıca</td>
-                                    <td>Reverse Cow-Girl</td>
-                                    <td>BDSM</td>
-                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
-
+                                    {% for t in teacher %}
+                                        <tr>
+                                            <td>{{t.name}} {{t.surname}}</td>
+                                            <td>{{t.email}}</td>
+                                            <td>{{t.email}}</td>
+                                            <td>{{t.phonenumber}}</td>
+                                            <td>{{t.Position}}</td>
+                                            <td>{{t.branches}}</td>
+                                            <td>
+                                                <a href="{% url 'delete_teacher' t.id %}">
+                                                    <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
 
                         </div><!--Teachers table card-->
 
                         <div class="card">
-                            <div class="card-body">
+                            <form method="post" action="{% url 'add_student' %}">
+                                {% csrf_token %}
+                                <div class="card-body">
                                 <div class="card-title">
                                     <h4>Öğrenci Kayıt Formu</h4>
                                 </div>
@@ -419,7 +475,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Adı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="name">
                                     </div>
                                 </div>
 
@@ -427,14 +483,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Soyadı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Fotoğrafı</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control form-control-sm" id="formFileSm" type="file">
+                                            name="surname">
                                     </div>
                                 </div>
 
@@ -442,7 +491,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="email" class="form-control"
-                                            name="categoryinput">
+                                            name="email">
                                     </div>
                                 </div>
 
@@ -450,7 +499,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="tel" class="form-control"
-                                            name="categoryinput">
+                                            name="phone">
                                     </div>
                                 </div>
 
@@ -458,7 +507,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="date" class="form-control"
-                                            name="categoryinput">
+                                            name="birthdate">
                                     </div>
                                 </div>
 
@@ -466,19 +515,23 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Okul Adı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="schoolName">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="categorySelect" class="col-sm-2 col-form-label">Sınıf</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="class-level"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
-                                            {% for c in grades %}
-                                            <option value="{{ c.pk }}">{{ c.gradeName }}</option>
-                                            {% endfor %}
+                                            
+                                            <option value="Okul Öncesi">Okul Öncesi</option>
+                                            <option value="İlkokul">İlkokul</option>
+                                            <option value="Ortaokul">Ortaokul</option>
+                                            <option value="Lise">Lise</option>
+                                            <option value="Lisans">Lisans</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -487,77 +540,34 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Adres</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="address">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Şehir</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
-                                            id="citySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in cities %}
-                                            <option value="{{ c.pk }}">{{ c.cityName }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">İlçe</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="lesson"
-                                            id="countySelect" disabled>
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for l in county %}
-                                            <option value="{{ l.pk }}" data-category="{{ l.cityid_id }}">{{ l.countyName
-                                                }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        const citySelect = document.getElementById("citySelect");
-                                        const countySelect = document.getElementById("countySelect");
-
-                                        citySelect.addEventListener("change", function () {
-                                            const selectedCityId = this.value;
-                                            const countyOptions = countySelect.querySelectorAll("option");
-
-                                            countyOptions.forEach(option => {
-                                                const optionCity = option.getAttribute("data-category");
-                                                if (optionCity === selectedCityId || selectedCityId === "") {
-                                                    option.style.display = "block";
-                                                } else {
-                                                    option.style.display = "none";
-                                                }
-                                            });
-
-                                            countySelect.disabled = !selectedCityId; // Kategori seçilmediyse dersleri seçimi devre dışı bırak
-                                        });
-                                    });
-                                </script>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">iskonto</label>
+                                    <label for="inputText" class="col-sm-2 col-form-label">İskonto</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="number" class="form-control"
-                                            name="categoryinput">
+                                            name="discount">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label">Boyut</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="lesson"
-                                            id="sizeSelect">
+                                        <select class="form-select" aria-label="Default select example" name="shirt-size"
+                                            id="shirt-size">
                                             <option selected>Seçiniz</option>
-                                            {% for s in size %}
-                                            <option value="{{ s.pk }}">{{ s.sizeName }}</option>
-                                            {% endfor %}
+                                            
+                                            <option value="XXS">XXS</option>
+                                            <option value="XS">XS</option>
+                                            <option value="S">S</option>
+                                            <option value="M">M</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                            <option value="XXL">XXL</option>
+                                            <option value="XXXL">XXXL</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -566,7 +576,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Veli Adı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="parent-name">
                                     </div>
                                 </div>
 
@@ -574,7 +584,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Veli Soyadı</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="parent-surname">
                                     </div>
                                 </div>
 
@@ -582,7 +592,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Veli E-Posta</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="email" class="form-control"
-                                            name="categoryinput">
+                                            name="parent-email">
                                     </div>
                                 </div>
 
@@ -590,20 +600,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Veli Telefon Numarası</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="tel" class="form-control"
-                                            name="categoryinput">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Meslek</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="lesson"
-                                            id="jobSelect">
-                                            <option selected>Seçiniz</option>
-                                            {% for j in jobs %}
-                                            <option value="{{ j.pk }}">{{ j.jobName }}</option>
-                                            {% endfor %}
-                                        </select>
+                                            name="parent-telephone">
                                     </div>
                                 </div>
 
@@ -611,60 +608,9 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Veli Adresi</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="text" class="form-control"
-                                            name="categoryinput">
+                                            name="parent-address">
                                     </div>
                                 </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Şehir</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="ParentcitySelect" id="ParentcitySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for c in cities %}
-                                            <option value="{{ c.pk }}">{{ c.cityName }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">İlçe</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="ParentcountySelect" id="ParentcountySelect" disabled>
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for l in county %}
-                                            <option value="{{ l.pk }}" data-category="{{ l.cityid_id }}">{{ l.countyName
-                                                }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        const citySelect = document.getElementById("ParentcitySelect");
-                                        const countySelect = document.getElementById("ParentcountySelect");
-
-                                        citySelect.addEventListener("change", function () {
-                                            const selectedCityId = this.value;
-                                            const countyOptions = countySelect.querySelectorAll("option");
-
-                                            countyOptions.forEach(option => {
-                                                const optionCity = option.getAttribute("data-category");
-                                                if (optionCity === selectedCityId || selectedCityId === "") {
-                                                    option.style.display = "block";
-                                                } else {
-                                                    option.style.display = "none";
-                                                }
-                                            });
-
-                                            countySelect.disabled = !selectedCityId; // Kategori seçilmediyse dersleri seçimi devre dışı bırak
-                                        });
-                                    });
-                                </script>
-
 
                                 <div class="row mb-3">
                                     <label class="col-sm-10 col-form-label"></label>
@@ -673,7 +619,8 @@
                                             onclick="addCategory()">Kaydet</button>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
+                            </form>
                         </div><!--Student register form end-->
 
                         <div class="card p-3">
@@ -684,40 +631,68 @@
 
                                 <thead>
                                     <tr>
-                                        <th scope="col">Öğrenci Adı Soyadı</th>
+                                        <th scope="col">Adı Soyadı</th>
+                                        <th scope="col">E-Posta</th>
+                                        <th scope="col">Telefon</th>                                   
+                                        <th scope="col">Doğum Tarihi</th>
+                                        <th scope="col">Okul Adı</th>
+                                        <th scope="col">Sınıf</th>
+                                        <th scope="col">Adres</th>
+                                        <th scope="col">İskonto</th>
+                                        <th scope="col">Boyut</th>
+
                                         <th scope="col">Veli Adı Soyadı</th>
-                                        <th scope="col">Veli Telefon Numarası</th>
-                                        <th scope="col">E-Mail</th>
+                                        <th scope="col">Veli E-Posta</th>
+                                        <th scope="col">Veli Telefon</th>
+                                        <th scope="col">Veli Adres</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <td>Huzeyfe Hanzala Güzel</td>
-                                    <td>Emirhan Ilıca</td>
-                                    <td>+90 531 552 31 69</td>
-                                    <td>xKraltr@xvideos.cu</td>
-                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
-
+                                    {% for s in student %}
+                                    <tr>
+                                        <td>{{s.firstname}} {{s.lastname}}</td>
+                                        <td>{{s.email}}</td>
+                                        <td>{{s.phone}}</td>
+                                        <td>{{s.birthdate}}</td>
+                                        <td>{{s.schoolname}}</td>
+                                        <td>{{s.level}}</td>
+                                        <td>{{s.address}}</td>
+                                        <td>{{s.discount}}</td>
+                                        <td>{{s.tshirtsize}}</td>
+                                        <td>{{s.parentid.firstname}} {{s.parentid.lastname}}</td>                            
+                                        <td>{{s.parentid.email}}</td>
+                                        <td>{{s.parentid.phone}}</td>
+                                        <td>{{s.parentid.address}}</td>
+                                        <td>
+                                            <a href="{% url 'delete_student' s.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
 
                         </div><!--Students table card-->
 
                         <div class="card">
-                            <div class="card-body">
+                            <form method="post" action="{% url 'add_payment' %}">
+                                {% csrf_token %}
+                                <div class="card-body">
                                 <div class="card-title">
                                     <h4>Ödeme Kayıt Formu</h4>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Örenci</label>
+                                    <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="category"
+                                        <select class="form-select" aria-label="Default select example" name="studentSelect"
                                             id="categorySelect">
                                             <option selected disabled>Seçiniz</option>
-                                            {% for s in students %}
-                                            <option value="{{ s.pk }}">{{ s.studentName }}</option>
+                                            {% for s in student %}
+                                            <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -727,7 +702,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Ödeme Tarihi</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="date" class="form-control"
-                                            name="categoryinput">
+                                            name="dateSelect">
                                     </div>
                                 </div>
 
@@ -735,7 +710,7 @@
                                     <label for="inputText" class="col-sm-2 col-form-label">Miktar</label>
                                     <div class="col-sm-10">
                                         <input id="category-name-input" type="number" class="form-control"
-                                            name="categoryinput">
+                                            name="price">
                                     </div>
                                 </div>
 
@@ -747,7 +722,8 @@
                                     </div>
                                 </div>
 
-                            </div>
+                                </div>
+                            </form>
                         </div><!--Payment register form end-->
 
                         <div class="card p-3">
@@ -766,11 +742,18 @@
                                 </thead>
 
                                 <tbody>
-                                    <td>Huzeyfe Hanzala Güzel</td>
-                                    <td>02/08/2023 23.43</td>
-                                    <td>304232 ₺</td>
-                                    <td><button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button></td>
-
+                                    {% for p in payment %}
+                                        <tr>
+                                            <td>{{p.studentid.firstname}} {{p.studentid.lastname}}</td>
+                                            <td>{{ p.paymentdate|date:"d/m/Y" }} , {{ p.paymentdate|time:"H:i" }}</td>
+                                            <td>{{p.amount}} ₺</td>
+                                            <td>
+                                                <a href="{% url 'delete_payment' p.id %}">
+                                                    <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
 
