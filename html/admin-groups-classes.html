@@ -96,11 +96,32 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="admin.html">
-                    <i class="bi bi-clipboard"></i>
-                    <span>Formlar</span>
+                <a class="nav-link collapsed" href="admin.html">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Admin</span>
                 </a>
-            </li><!-- End Forms Nav -->
+            </li><!-- End Admin Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-forms.html">
+                    <i class="bi bi-mortarboard"></i>
+                    <span>Dersler</span>
+                </a>
+            </li><!-- End Dersler Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="attendance.html">
+                    <i class="bi bi-check-square"></i>
+                    <span>Yoklama</span>
+                </a>
+            </li><!-- End attendance Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link " href="admin-groups-classes.html">
+                    <i class="bi bi-people"></i>
+                    <span>Gruplar & Sınıflar</span>
+                </a>
+            </li><!-- End attendance Nav -->
 
 
             <li class="nav-heading">Oturum</li>
@@ -285,7 +306,7 @@
                                         <label for="groupName" class="col-sm-2 col-form-label">Grup Adı</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="groupName" name="groupName"
-                                                placeholder="Grup Adı">
+                                                placeholder="Grup Adı" required>
                                         </div><!--Grup adı ekle-->
                                     </div>
 
@@ -364,7 +385,7 @@
                                         <label for="categoryName" class="col-sm-2 col-form-label">Sınıf Adı</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="className" name="className"
-                                                placeholder="Sınıf Adı">
+                                                placeholder="Sınıf Adı" required>
                                         </div>
                                     </div>
 
@@ -372,7 +393,7 @@
                                         <label for="categoryName" class="col-sm-2 col-form-label">Kapasite</label>
                                         <div class="col-sm-10">
                                             <input type="number" class="form-control" id="classCapacity" name ="classCapacity"
-                                                placeholder="Sınıf Kapasite">
+                                                placeholder="Sınıf Kapasite" required>
                                         </div>
                                     </div>
 

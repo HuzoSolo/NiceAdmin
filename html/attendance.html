@@ -96,11 +96,32 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="admin.html">
-                    <i class="bi bi-clipboard"></i>
-                    <span>Formlar</span>
+                <a class="nav-link collapsed" href="admin.html">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Admin</span>
                 </a>
-            </li><!-- End Forms Nav -->
+            </li><!-- End Admin Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-forms.html">
+                    <i class="bi bi-mortarboard"></i>
+                    <span>Dersler</span>
+                </a>
+            </li><!-- End Dersler Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link " href="attendance.html">
+                    <i class="bi bi-check-square"></i>
+                    <span>Yoklama</span>
+                </a>
+            </li><!-- End attendance Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-groups-classes.html">
+                    <i class="bi bi-people"></i>
+                    <span>Gruplar & Sınıflar</span>
+                </a>
+            </li><!-- End attendance Nav -->
 
 
             <li class="nav-heading">Oturum</li>
@@ -321,7 +342,45 @@
 
                                 </div>
                             </form>
-                        </div><!--Payment register form end-->
+                        </div><!--Attendance end-->
+
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Yoklamalar</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Grup</th>
+                                        <th scope="col">Öğrenci</th>
+                                        <th scope="col">Ders Adı</th>
+                                        <th scope="col">Ders Saati</th>
+                                        <th scope="col">Yoklama Tarihi</th>
+                                        <th scope="col">Durum</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>{{x.grup}}</td>
+                                        <td>{{x.öğrenci}}</td>
+                                        <td>{{x.dersAdı}}</td>
+                                        <td>{{x.dersSaati}}</td>
+                                        <td>{{x.YoklamaTarihi}}</td>
+                                        <td>{{x.Durum}}</td>
+                                        <td>
+                                            <a href="{% url 'delete_student' s.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div><!--the datatable-->
 
 
                     </div>

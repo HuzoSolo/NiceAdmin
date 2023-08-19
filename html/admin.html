@@ -97,10 +97,31 @@
 
             <li class="nav-item">
                 <a class="nav-link " href="admin.html">
-                    <i class="bi bi-clipboard"></i>
-                    <span>Formlar</span>
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Admin</span>
                 </a>
-            </li><!-- End Forms Nav -->
+            </li><!-- End Admin Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-forms.html">
+                    <i class="bi bi-mortarboard"></i>
+                    <span>Dersler</span>
+                </a>
+            </li><!-- End Dersler Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="attendance.html">
+                    <i class="bi bi-check-square"></i>
+                    <span>Yoklama</span>
+                </a>
+            </li><!-- End attendance Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-groups-classes.html">
+                    <i class="bi bi-people"></i>
+                    <span>Gruplar & Sınıflar</span>
+                </a>
+            </li><!-- End attendance Nav -->
 
 
             <li class="nav-heading">Oturum</li>
@@ -143,45 +164,45 @@
                     <div class="row">
 
                         <div class="card">
-                            <form  method="post" action="{% url 'add_group_student' %}">
+                            <form method="post" action="{% url 'add_group_student' %}">
                                 {% csrf_token %}
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <h4>Öğrenci Grup Kayıt Formu</h4>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Grup</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="groupSelect"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for g in group %}
-                                            <option value="{{ g.pk }}">{{ g.name }}</option>
-                                            {% endfor %}
-                                            
-                                        </select>
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <h4>Öğrenci Grup Kayıt Formu</h4>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Grup</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="groupSelect" id="categorySelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for g in group %}
+                                                <option value="{{ g.pk }}">{{ g.name }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="studentSelect" id="categorySelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for s in student %}
+                                                <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="studentSelect"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for s in student %}
-                                            <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
-                                    </div>
-                                </div>
-                            </div>
                             </form>
                         </div><!--Student group register form end-->
 
@@ -192,7 +213,7 @@
                             <table class="datatable">
 
                                 <thead>
-                                    <tr>                                       
+                                    <tr>
                                         <th scope="col">Öğrenci</th>
                                         <th scope="col">Grup</th>
                                         <th scope="col">Ders</th>
@@ -225,7 +246,8 @@
                                         </td>
                                         <td>
                                             <a href="{% url 'delete_studentgroup' s.id %}">
-                                                <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
                                             </a>
                                         </td>
                                     </tr>
@@ -236,31 +258,31 @@
                                 function showStudentDetails(studentId, studentName, groupId) {
                                     const modalTitle = document.querySelector('.modal-title');
                                     modalTitle.textContent = studentName;
-                                
+
                                     fetch(`/api/get_attendance/${studentId}/`)
                                         .then(response => response.json())
                                         .then(data => {
                                             console.log(data)
                                             const modalTableBody = document.querySelector('#modalTableBody');
                                             modalTableBody.innerHTML = '';  // İçeriği temizleyin
-                                
+
                                             data.attendance.forEach(attendance => {
                                                 const row = document.createElement('tr');
-                                
+
                                                 const studentCell = document.createElement('td');
                                                 studentCell.textContent = `${attendance.lessonname}`;
                                                 row.appendChild(studentCell);
-                                
+
                                                 const dateCell = document.createElement('td');
                                                 const attendanceDate = new Date(attendance.attendancedate);
                                                 const formattedDate = `${attendanceDate.getDate()}/${attendanceDate.getMonth() + 1}/${attendanceDate.getFullYear()}`;
                                                 dateCell.textContent = formattedDate;
                                                 row.appendChild(dateCell);
-                                
+
                                                 const statuCell = document.createElement('td');
                                                 statuCell.textContent = attendance.statu;
                                                 row.appendChild(statuCell);
-                                
+
                                                 modalTableBody.appendChild(row);
                                             });
                                         })
@@ -268,7 +290,7 @@
                                             console.error('Error fetching attendance data:', error);
                                         });
                                 }
-                                
+
                             </script>
                             <!-- details Modal -->
                             <div class="modal fade modal-lg" id="showModal" tabindex="-1"
@@ -291,7 +313,7 @@
                                                 </thead>
                                                 <tbody id="modalTableBody">
                                                     <tr>
-                                                        
+
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -307,123 +329,123 @@
                         </div><!--Student group table card-->
 
                         <div class="card">
-                        <form method="post" action="{% url 'add_teacher' %}">
-                            {% csrf_token %}
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <h4>Eğitmen Kayıt Formu</h4>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Adı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="name">
+                            <form method="post" action="{% url 'add_teacher' %}">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <h4>Eğitmen Kayıt Formu</h4>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Soyadı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="surname" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Cinsiyet</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="gender" id="categorySelect" required>
+                                                <option selected disabled >Seçiniz</option>
+                                                <option value="1">Erkek</option>
+                                                <option value="2">Kadın</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Medeni Hal</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="marital-status" id="categorySelect" required>
+                                                <option selected disabled>Seçiniz</option>
+                                                <option value="1">Evli</option>
+                                                <option value="2">Bekar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Eğitim durumu</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="edu-status" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Üniversite Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="uni-name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="date" class="form-control"
+                                                name="birthdate" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="email" class="form-control"
+                                                name="email" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="tel" class="form-control"
+                                                name="phone" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Pozisyon</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="position" id="categorySelect" required>
+                                                <option selected disabled>Seçiniz</option>
+                                                <option value="Öğretmen">Öğretmen</option>
+                                                <option value="Asistan">Asistan</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Branş</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="branches" required>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitmen Soyadı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="surname">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Cinsiyet</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="gender"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            <option value="1">Erkek</option>
-                                            <option value="2">Kadın</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Medeni Hal</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="marital-status"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            <option value="1">Evli</option>
-                                            <option value="2">Bekar</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Eğitim durumu</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="edu-status">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Üniversite Adı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="uni-name">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="date" class="form-control"
-                                            name="birthdate">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="email" class="form-control"
-                                            name="email">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="tel" class="form-control"
-                                            name="phone">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Pozisyon</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="position"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option> 
-                                            <option value="Öğretmen">Öğretmen</option>
-                                            <option value="Asistan">Asistan</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Branş</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="branches">
-                                    </div>
-                                </div>
-
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
                         </div><!--Teacher register form end-->
 
                         <div class="card p-3">
@@ -445,19 +467,20 @@
 
                                 <tbody>
                                     {% for t in teacher %}
-                                        <tr>
-                                            <td>{{t.name}} {{t.surname}}</td>
-                                            <td>{{t.email}}</td>
-                                            <td>{{t.email}}</td>
-                                            <td>{{t.phonenumber}}</td>
-                                            <td>{{t.Position}}</td>
-                                            <td>{{t.branches}}</td>
-                                            <td>
-                                                <a href="{% url 'delete_teacher' t.id %}">
-                                                    <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{t.name}} {{t.surname}}</td>
+                                        <td>{{t.email}}</td>
+                                        <td>{{t.email}}</td>
+                                        <td>{{t.phonenumber}}</td>
+                                        <td>{{t.Position}}</td>
+                                        <td>{{t.branches}}</td>
+                                        <td>
+                                            <a href="{% url 'delete_teacher' t.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -468,160 +491,168 @@
                             <form method="post" action="{% url 'add_student' %}">
                                 {% csrf_token %}
                                 <div class="card-body">
-                                <div class="card-title">
-                                    <h4>Öğrenci Kayıt Formu</h4>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Adı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="name">
+                                    <div class="card-title">
+                                        <h4>Öğrenci Kayıt Formu</h4>
                                     </div>
-                                </div>
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="name" required>
+                                        </div>
+                                    </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Soyadı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="surname">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Öğrenci Soyadı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="surname" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="email" class="form-control"
-                                            name="email">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">E-Posta</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="email" class="form-control"
+                                                name="email" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="tel" class="form-control"
-                                            name="phone">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Telefon Numarası</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="tel" class="form-control"
+                                                name="phone" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="date" class="form-control"
-                                            name="birthdate">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Doğum Tarihi</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="date" class="form-control"
+                                                name="birthdate" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Okul Adı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="schoolName">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Okul Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="schoolName" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Sınıf</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="class-level"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            
-                                            <option value="Okul Öncesi">Okul Öncesi</option>
-                                            <option value="İlkokul">İlkokul</option>
-                                            <option value="Ortaokul">Ortaokul</option>
-                                            <option value="Lise">Lise</option>
-                                            <option value="Lisans">Lisans</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Sınıf</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="class-level" id="categorySelect" required>
+                                                <option selected disabled>Seçiniz</option>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Adres</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="address">
-                                    </div>
-                                </div>
+                                                <option value="Okul Öncesi">Okul Öncesi</option>
+                                                <option value="İlkokul">İlkokul</option>
+                                                <option value="Ortaokul">Ortaokul</option>
+                                                <option value="Lise">Lise</option>
+                                                <option value="Lisans">Lisans</option>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">İskonto</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="number" class="form-control"
-                                            name="discount">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Boyut</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="shirt-size"
-                                            id="shirt-size">
-                                            <option selected>Seçiniz</option>
-                                            
-                                            <option value="XXS">XXS</option>
-                                            <option value="XS">XS</option>
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                            <option value="L">L</option>
-                                            <option value="XL">XL</option>
-                                            <option value="XXL">XXL</option>
-                                            <option value="XXXL">XXXL</option>
-                                            
-                                        </select>
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Adres</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="address" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Adı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="parent-name">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">İskonto</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="number" class="form-control"
+                                                name="discount" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Soyadı</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="parent-surname">
-                                    </div>
-                                </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label">Boyut</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="shirt-size" id="shirt-size" required>
+                                                <option selected disabled>Seçiniz</option>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Veli E-Posta</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="email" class="form-control"
-                                            name="parent-email">
-                                    </div>
-                                </div>
+                                                <option value="XXS">XXS</option>
+                                                <option value="XS">XS</option>
+                                                <option value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                                <option value="XXL">XXL</option>
+                                                <option value="XXXL">XXXL</option>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Telefon Numarası</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="tel" class="form-control"
-                                            name="parent-telephone">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Veli Adresi</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="text" class="form-control"
-                                            name="parent-address">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Veli Adı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="parent-name" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Veli Soyadı</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="parent-surname" required>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Veli E-Posta</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="email" class="form-control"
+                                                name="parent-email" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Veli Telefon
+                                            Numarası</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="tel" class="form-control"
+                                                name="parent-telephone" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Veli Adresi</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="parent-address" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div><!--Student register form end-->
+
+                        <!--style for student datatable-->
+                        <style>
+                            .hidden {
+                                display: none;
+                            }
+                        </style>
 
                         <div class="card p-3">
                             <div class="card-title">
@@ -633,7 +664,7 @@
                                     <tr>
                                         <th scope="col">Adı Soyadı</th>
                                         <th scope="col">E-Posta</th>
-                                        <th scope="col">Telefon</th>                                   
+                                        <th scope="col">Telefon</th>
                                         <th scope="col">Doğum Tarihi</th>
                                         <th scope="col">Okul Adı</th>
                                         <th scope="col">Sınıf</th>
@@ -641,10 +672,10 @@
                                         <th scope="col">İskonto</th>
                                         <th scope="col">Boyut</th>
 
-                                        <th scope="col">Veli Adı Soyadı</th>
-                                        <th scope="col">Veli E-Posta</th>
-                                        <th scope="col">Veli Telefon</th>
-                                        <th scope="col">Veli Adres</th>
+                                        <th class="hidden" scope="col">Veli Adı Soyadı</th>
+                                        <th class="hidden" scope="col">Veli E-Posta</th>
+                                        <th class="hidden" scope="col">Veli Telefon</th>
+                                        <th class="hidden" scope="col">Veli Adres</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -661,14 +692,28 @@
                                         <td>{{s.address}}</td>
                                         <td>{{s.discount}}</td>
                                         <td>{{s.tshirtsize}}</td>
-                                        <td>{{s.parentid.firstname}} {{s.parentid.lastname}}</td>                            
-                                        <td>{{s.parentid.email}}</td>
-                                        <td>{{s.parentid.phone}}</td>
-                                        <td>{{s.parentid.address}}</td>
+                                        <td class="hidden">{{s.parentid.firstname}} {{s.parentid.lastname}}</td>
+                                        <td class="hidden">{{s.parentid.email}}</td>
+                                        <td class="hidden">{{s.parentid.phone}}</td>
+                                        <td class="hidden">{{s.parentid.address}}</td>
                                         <td>
-                                            <a href="{% url 'delete_student' s.id %}">
-                                                <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
-                                            </a>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <!--Modal button for monitoring student's all info-->
+                                                    <button type="button" class="btn btn-primary w-100"
+                                                        data-bs-toggle="modal" data-bs-target="#studentModal"
+                                                        onclick="showStudentDetails(this)">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-6">
+                                                    <a href="{% url 'delete_student' s.id %}">
+                                                        <button type='button' class='btn btn-danger w-100'><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -677,50 +722,148 @@
 
                         </div><!--Students table card-->
 
+                        <!-- student Modal -->
+                        <div class="modal fade modal-xl" id="studentModal" tabindex="-1"
+                            aria-labelledby="studentModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="studentModalLabel">Name+Surname Details</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <script>
+
+                                            function showStudentDetails(element) {
+                                                // Get the closest table row to the clicked element
+                                                let row = element.closest('tr');
+
+                                                // Get only parent's details from the row using destructuring
+                                                let [
+                                                    , // studentName
+                                                    , // studentEmail
+                                                    , // studentPhone
+                                                    , // studentBirthdate
+                                                    , // studentSchoolname
+                                                    , // studentLevel
+                                                    , // studentAddress
+                                                    , // studentDiscount
+                                                    , // studentTshirtsize
+                                                    studentParentname,
+                                                    studentParentemail,
+                                                    studentParentphone,
+                                                    studentParentaddress
+                                                ] = [...row.querySelectorAll('td')].map(td => td.innerHTML);
+
+                                                let modalTitle = document.querySelector('#studentModalLabel');
+                                                modalTitle.textContent = studentParentname + ' Bilgileri'; // Changed title to parent's name + "Bilgileri"
+
+                                                // Adding only parent details to the modal's datatable
+                                                let modalTableBody = document.querySelector('#modalTable tbody');
+
+                                                // Use a template literal to make this more readable and efficient
+                                                modalTableBody.innerHTML = `
+                                                    <tr>
+                                                        <td>${studentParentname}</td>
+                                                        <td>${studentParentemail}</td>
+                                                        <td>${studentParentphone}</td>
+                                                        <td>${studentParentaddress}</td>
+                                                    </tr>
+                                                `;
+                                            }
+
+
+                                        </script>
+
+                                        <table id="modalTable" class="datatable">
+
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Veli Adı Soyadı</th>
+                                                    <th scope="col">Veli E-Posta</th>
+                                                    <th scope="col">Veli Telefon</th>
+                                                    <th scope="col">Veli Adres</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--end of details Modal -->
+
                         <div class="card">
                             <form method="post" action="{% url 'add_payment' %}">
                                 {% csrf_token %}
                                 <div class="card-body">
-                                <div class="card-title">
-                                    <h4>Ödeme Kayıt Formu</h4>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example" name="studentSelect"
-                                            id="categorySelect">
-                                            <option selected disabled>Seçiniz</option>
-                                            {% for s in student %}
-                                            <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
-                                            {% endfor %}
-                                        </select>
+                                    <div class="card-title">
+                                        <h4>Ödeme Kayıt Formu</h4>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Ödeme Tarihi</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="date" class="form-control"
-                                            name="dateSelect">
+                                    <div class="row mb-3">
+                                        <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="studentSelect" id="categorySelect">
+                                                <option selected disabled>Seçiniz</option>
+                                                {% for s in student %}
+                                                <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Miktar</label>
-                                    <div class="col-sm-10">
-                                        <input id="category-name-input" type="number" class="form-control"
-                                            name="price">
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Ödeme Tarihi</label>
+                                        <div class="col-sm-10">
+                                            <input id="paymentDate" type="date" class="form-control"
+                                                name="dateSelect" required>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row mb-3">
-                                    <label class="col-sm-10 col-form-label"></label>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn  btn-primary w-100"
-                                            onclick="addCategory()">Kaydet</button>
+                                    <script>
+                                        // Sayfa yüklendiğinde çalışacak fonksiyon
+                                        window.onload = function() {
+                                            // Tarih alanını seç
+                                            var DateInput = document.getElementById("paymentDate");
+                                    
+                                            // Bugünün tarihini al ve yyyy-mm-dd formatında dönüştür
+                                            var today = new Date();
+                                            var yyyy = today.getFullYear();
+                                            var mm = String(today.getMonth() + 1).padStart(2, '0');
+                                            var dd = String(today.getDate()).padStart(2, '0');
+                                            var formattedDate = yyyy + '-' + mm + '-' + dd;
+                                    
+                                            // Bugünün tarihini tarih alanına yerleştir
+                                            DateInput.value = formattedDate;
+                                        };
+                                    </script>
+
+                                    <div class="row mb-3">
+                                        <label for="inputText" class="col-sm-2 col-form-label">Miktar</label>
+                                        <div class="col-sm-10">
+                                            <input id="category-name-input" type="number" class="form-control"
+                                                name="price" required>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="row mb-3">
+                                        <label class="col-sm-10 col-form-label"></label>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn  btn-primary w-100"
+                                                onclick="addCategory()">Kaydet</button>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </form>
@@ -743,16 +886,17 @@
 
                                 <tbody>
                                     {% for p in payment %}
-                                        <tr>
-                                            <td>{{p.studentid.firstname}} {{p.studentid.lastname}}</td>
-                                            <td>{{ p.paymentdate|date:"d/m/Y" }} , {{ p.paymentdate|time:"H:i" }}</td>
-                                            <td>{{p.amount}} ₺</td>
-                                            <td>
-                                                <a href="{% url 'delete_payment' p.id %}">
-                                                    <button type='button' class='btn btn-danger w-100'><i class="bi bi-trash"></i></button>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{p.studentid.firstname}} {{p.studentid.lastname}}</td>
+                                        <td>{{ p.paymentdate|date:"d/m/Y" }} , {{ p.paymentdate|time:"H:i" }}</td>
+                                        <td>{{p.amount}} ₺</td>
+                                        <td>
+                                            <a href="{% url 'delete_payment' p.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>

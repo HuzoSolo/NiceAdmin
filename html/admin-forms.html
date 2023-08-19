@@ -96,11 +96,32 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="admin.html">
-                    <i class="bi bi-clipboard"></i>
-                    <span>Formlar</span>
+                <a class="nav-link collapsed" href="admin.html">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Admin</span>
                 </a>
-            </li><!-- End Forms Nav -->
+            </li><!-- End Admin Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link " href="admin-forms.html">
+                    <i class="bi bi-mortarboard"></i>
+                    <span>Dersler</span>
+                </a>
+            </li><!-- End Dersler Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="attendance.html">
+                    <i class="bi bi-check-square"></i>
+                    <span>Yoklama</span>
+                </a>
+            </li><!-- End attendance Nav -->
+
+            <li class="nav-item ">
+                <a class="nav-link collapsed" href="admin-groups-classes.html">
+                    <i class="bi bi-people"></i>
+                    <span>Gruplar & Sınıflar</span>
+                </a>
+            </li><!-- End attendance Nav -->
 
 
             <li class="nav-heading">Oturum</li>
@@ -139,7 +160,7 @@
             <div class="row">
 
                 <!-- Left side columns -->
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
 
                         <div class="card">
@@ -147,12 +168,13 @@
                                 <div class="card-title">
                                     <h4>Kategori</h4>
                                 </div>
-                                <form  method="post" action="{% url 'add_category' %}">
+                                <form method="post" action="{% url 'add_category' %}">
                                     {% csrf_token %}
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Kategori Adı</label>
                                         <div class="col-sm-10">
-                                            <input id="category-name-input" type="text" class="form-control" name="categoryinput">
+                                            <input id="category-name-input" type="text" class="form-control"
+                                                name="categoryinput" required>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -173,15 +195,16 @@
                                 <div class="card-title">
                                     <h4>Ders</h4>
                                 </div>
-                                <form  method="post" action="{% url 'add_lesson' %}">
+                                <form method="post" action="{% url 'add_lesson' %}">
                                     {% csrf_token %}
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Kategori</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="category">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                name="category" required>
                                                 <option selected>Seçiniz</option>
                                                 {% for c in category %}
-                                                    <option value="{{ c.pk }}">{{ c.categoryname }}</option>
+                                                <option value="{{ c.pk }}">{{ c.categoryname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -190,7 +213,7 @@
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Ders Adı</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="lesson_name">
+                                            <input type="text" class="form-control" name="lesson_name" required>
                                         </div>
                                     </div>
 
@@ -216,34 +239,37 @@
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Kategori</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="category" id="categorySelect">
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                name="category" id="categorySelect" required>
                                                 <option selected disabled>Seçiniz</option>
                                                 {% for c in category %}
-                                                    <option value="{{ c.pk }}">{{ c.categoryname }}</option>
+                                                <option value="{{ c.pk }}">{{ c.categoryname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-                                
+
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Ders</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="lesson" id="lessonSelect" disabled>
+                                            <select class="form-select form-control" aria-label="Default select example"
+                                                name="lesson" id="lessonSelect" disabled required>
                                                 <option selected disabled>Seçiniz</option>
                                                 {% for l in lesson %}
-                                                    <option value="{{ l.pk }}" data-category="{{ l.categoryid_id }}">{{ l.lessonname }}</option>
+                                                <option value="{{ l.pk }}" data-category="{{ l.categoryid_id }}">{{
+                                                    l.lessonname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-                                
+
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Ünite Adı</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name = "unit_name">
+                                            <input type="text" class="form-control" name="unit_name" required>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row mb-3">
                                         <label class="col-sm-10 col-form-label"></label>
                                         <div class="col-sm-2">
@@ -255,11 +281,11 @@
                                     document.addEventListener("DOMContentLoaded", function () {
                                         const categorySelect = document.getElementById("categorySelect");
                                         const lessonSelect = document.getElementById("lessonSelect");
-                                
+
                                         categorySelect.addEventListener("change", function () {
                                             const selectedCategoryId = this.value;
                                             const lessonOptions = lessonSelect.querySelectorAll("option");
-                                
+
                                             lessonOptions.forEach(option => {
                                                 const optionCategory = option.getAttribute("data-category");
                                                 if (optionCategory === selectedCategoryId || selectedCategoryId === "") {
@@ -268,9 +294,9 @@
                                                     option.style.display = "none";
                                                 }
                                             });
-                                
+
                                             lessonSelect.disabled = !selectedCategoryId; // Enable the lesson selection only when a category is selected
-                                            
+
                                             // Reset the lesson selection to "Seçiniz" when category is changed
                                             lessonSelect.selectedIndex = 0;
                                         });
@@ -286,50 +312,55 @@
                                     <div class="card-title">
                                         <h4>Konu</h4>
                                     </div>
-                        
+
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Kategori</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="category" id="categorySelect2">
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="category" id="categorySelect2">
                                                 <option selected disabled>Seçiniz</option>
                                                 {% for c in category %}
-                                                    <option value="{{ c.pk }}">{{ c.categoryname }}</option>
+                                                <option value="{{ c.pk }}">{{ c.categoryname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Ders</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="lesson" id="lessonSelect2" disabled>
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="lesson" id="lessonSelect2" disabled>
                                                 <option selected disabled>Önce bir kategori seçin</option>
                                                 {% for l in lesson %}
-                                                    <option value="{{ l.pk }}" data-category="{{ l.categoryid_id }}">{{ l.lessonname }}</option>
+                                                <option value="{{ l.pk }}" data-category="{{ l.categoryid_id }}">{{
+                                                    l.lessonname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Ünite</label>
                                         <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example" name="unit" id="unitSelect2" disabled>
+                                            <select class="form-select" aria-label="Default select example" name="unit"
+                                                id="unitSelect2" disabled>
                                                 <option selected disabled>Önce bir ders seçin</option>
                                                 {% for u in unit %}
-                                                    <option value="{{ u.pk }}" data-lesson="{{ u.lessonid_id }}">{{ u.unitname }}</option>
+                                                <option value="{{ u.pk }}" data-lesson="{{ u.lessonid_id }}">{{
+                                                    u.unitname }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-                        
+
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Konu Adı</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="subject_name">
+                                            <input type="text" class="form-control" name="subject_name" required>
                                         </div>
                                     </div>
-                        
+
                                     <div class="row mb-3">
                                         <label class="col-sm-10 col-form-label"></label>
                                         <div class="col-sm-2">
@@ -342,10 +373,10 @@
                                         const categorySelect = document.getElementById("categorySelect2");
                                         const lessonSelect = document.getElementById("lessonSelect2");
                                         const unitSelect = document.getElementById("unitSelect2");
-                                
+
                                         categorySelect.addEventListener("change", function () {
                                             const selectedCategoryId = this.value;
-                                
+
                                             // Tüm ders ve ünite seçeneklerini gizle
                                             lessonSelect.querySelectorAll("option").forEach(option => {
                                                 option.style.display = "none";
@@ -353,34 +384,34 @@
                                             unitSelect.querySelectorAll("option").forEach(option => {
                                                 option.style.display = "none";
                                             });
-                                
+
                                             // Seçilen kategoriye ait ders seçeneklerini göster
                                             lessonSelect.querySelectorAll(`option[data-category="${selectedCategoryId}"]`).forEach(option => {
                                                 option.style.display = "block";
                                             });
-                                
+
                                             // Ders seçimini sıfırla ve aktifleştir
                                             lessonSelect.value = "";
                                             lessonSelect.disabled = false;
-                                
+
                                             // Ünite seçimini sıfırla ve devre dışı bırak
                                             unitSelect.value = "";
                                             unitSelect.disabled = true;
                                         });
-                                
+
                                         lessonSelect.addEventListener("change", function () {
                                             const selectedLessonId = this.value;
-                                
+
                                             // Tüm ünite seçeneklerini gizle
                                             unitSelect.querySelectorAll("option").forEach(option => {
                                                 option.style.display = "none";
                                             });
-                                
+
                                             // Seçilen dersin bağlı olduğu ünite seçeneklerini göster
                                             unitSelect.querySelectorAll(`option[data-lesson="${selectedLessonId}"]`).forEach(option => {
                                                 option.style.display = "block";
                                             });
-                                
+
                                             // Ünite seçimini sıfırla ve aktifleştir
                                             unitSelect.value = "";
                                             unitSelect.disabled = false;
@@ -390,287 +421,42 @@
                             </div>
                         </div><!--Unit-->
 
+                        <div class="card p-3">
+                            <div class="card-title">
+                                <h4>Kategoriler Konular ve Dersler</h4>
+                            </div>
+                            <table class="datatable">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Kurs</th>
+                                        <th scope="col">Ders</th>
+                                        <th scope="col">ünite</th>
+                                        <th scope="col">Konu</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>{{x.konu}}</td>
+                                        <td>{{x.ders}}</td>
+                                        <td>{{x.ünite}}</td>
+                                        <td>{{x.konu}}</td>
+                                        <td>
+                                            <a href="{% url 'delete_student' s.id %}">
+                                                <button type='button' class='btn btn-danger w-100'><i
+                                                        class="bi bi-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div><!--the datatable-->
+
                     </div>
                 </div><!-- End Left side columns -->
-
-                <!-- Right side columns -->
-                <div class="col-lg-4">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Kategoriler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Kategori Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for c in category %}
-                                        <tr>
-                                            <td class="category-name" scope="row">{{ c.categoryname }}</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                    <i class="bi bi-pencil-fill"></i>
-                                                </button>
-                                                
-                                                    <a href="{% url 'delete_category' c.id %}">
-                                                        <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                        <i class="bi bi-trash-fill"></i>
-                                                        </button>
-                                                    </a>
-                                               
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(button, categoryId) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--categories table-->
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Dersler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Kategori Adı</th>
-                                        <th class="category-name" scope="col">Ders Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">Robotik</td>
-                                        <td class="category-name" scope="row">WEDO</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--classes table-->  
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Üniteler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Ders Adı</th>
-                                        <th class="category-name" scope="col">Ünite Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">WEDO</td>
-                                        <td class="category-name" scope="row">Giriş</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--units table-->
-
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- form Table -->
-                            <div class="card-title">
-                                <h4>Mevcut Kategoriler</h4>
-                            </div>
-
-                            <table id="categoryTable" class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="category-name" scope="col">Ünite Adı</th>
-                                        <th class="category-name" scope="col">Konu Adı</th>
-                                        <th scope="col">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="category-name" scope="row">Giriş</td>
-                                        <td class="category-name" scope="row">Basit Robotik</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm" onclick="edit(this)">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <script>
-
-                                // function addCategory() {
-                                //     var name = document.getElementById("category-name-input").value;
-                                //     var table = document.getElementById("categoryTable");
-                                //     var row = table.insertRow(1);
-                                //     var cell1 = row.insertCell(0);
-                                //     var cell2 = row.insertCell(1);
-                                //     cell1.classList.add("category-name"); // add class to cell1
-                                //     cell1.innerHTML = name;
-                                //     cell2.innerHTML = "<button class='btn btn-primary btn-sm' onclick='edit(this)'><i class='bi bi-pencil-fill'></i></button><button class='btn btn-danger btn-sm' onclick='deleteRow(this)'><i class='bi bi-trash-fill'></i></button>";
-                                // }
-
-
-                                function deleteRow(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    row.parentNode.removeChild(row);
-                                }
-
-                                function edit(element) {
-                                    var cell = element.parentNode;
-                                    var row = cell.parentNode;
-                                    var nameCell = row.getElementsByClassName("category-name")[0];
-                                    var name = nameCell.innerHTML;
-                                    nameCell.innerHTML = "<input class='form-control' type='text' id='editField' value='" + name + "'>";
-
-                                    var input = document.getElementById('editField');
-                                    input.addEventListener('keyup', function (e) {
-                                        if (e.key === 'Enter') {
-                                            nameCell.innerHTML = e.target.value;
-                                        }
-                                    });
-                                }
-                            </script>
-
-                            <!-- End form Table -->
-                        </div>
-                    </div><!--subjects table-->
-
-
-
-                </div><!-- End Right side columns -->
 
             </div>
         </section>
