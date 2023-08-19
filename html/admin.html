@@ -174,8 +174,8 @@
                                         <label for="categorySelect" class="col-sm-2 col-form-label">Grup</label>
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
-                                                name="groupSelect" id="categorySelect">
-                                                <option selected disabled>Seçiniz</option>
+                                                name="groupSelect" id="categorySelect" required>
+                                                <option value="" selected disabled>Seçiniz</option>
                                                 {% for g in group %}
                                                 <option value="{{ g.pk }}">{{ g.name }}</option>
                                                 {% endfor %}
@@ -187,8 +187,8 @@
                                         <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
-                                                name="studentSelect" id="categorySelect">
-                                                <option selected disabled>Seçiniz</option>
+                                                name="studentSelect" id="categorySelect" required>
+                                                <option value="" selected disabled>Seçiniz</option>
                                                 {% for s in student %}
                                                 <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
                                                 {% endfor %}
@@ -356,7 +356,7 @@
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
                                                 name="gender" id="categorySelect" required>
-                                                <option selected disabled >Seçiniz</option>
+                                                <option value="" selected disabled >Seçiniz</option>
                                                 <option value="1">Erkek</option>
                                                 <option value="2">Kadın</option>
                                             </select>
@@ -368,7 +368,7 @@
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
                                                 name="marital-status" id="categorySelect" required>
-                                                <option selected disabled>Seçiniz</option>
+                                                <option value="" selected disabled>Seçiniz</option>
                                                 <option value="1">Evli</option>
                                                 <option value="2">Bekar</option>
                                             </select>
@@ -420,7 +420,7 @@
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
                                                 name="position" id="categorySelect" required>
-                                                <option selected disabled>Seçiniz</option>
+                                                <option value="" selected disabled>Seçiniz</option>
                                                 <option value="Öğretmen">Öğretmen</option>
                                                 <option value="Asistan">Asistan</option>
 
@@ -547,7 +547,7 @@
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
                                                 name="class-level" id="categorySelect" required>
-                                                <option selected disabled>Seçiniz</option>
+                                                <option value="" selected disabled>Seçiniz</option>
 
                                                 <option value="Okul Öncesi">Okul Öncesi</option>
                                                 <option value="İlkokul">İlkokul</option>
@@ -580,7 +580,7 @@
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
                                                 name="shirt-size" id="shirt-size" required>
-                                                <option selected disabled>Seçiniz</option>
+                                                <option value="" selected disabled>Seçiniz</option>
 
                                                 <option value="XXS">XXS</option>
                                                 <option value="XS">XS</option>
@@ -814,8 +814,8 @@
                                         <label for="categorySelect" class="col-sm-2 col-form-label">Öğrenci</label>
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example"
-                                                name="studentSelect" id="categorySelect">
-                                                <option selected disabled>Seçiniz</option>
+                                                name="studentSelect" id="categorySelect" required>
+                                                <option value="" selected disabled>Seçiniz</option>
                                                 {% for s in student %}
                                                 <option value="{{ s.pk }}">{{ s.firstname }} {{ s.lastname }}</option>
                                                 {% endfor %}
